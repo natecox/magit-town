@@ -38,7 +38,14 @@
 (define-transient-command magit-town-dispatch ()
   "Dispatch a git town command."
   [["Development Workflow"
-    ("w s" "sync" magit-town-sync)
+    ("d h" "hack" magit-town-hack)
+    ("d s" "sync" magit-town-sync)
+    ("d p" "new-pull-request" magit-town-new-pull-request)
+    ("d f" "ship" magit-town-ship)]
+   ["Repository Maintenance"
+    ("m k" "kill" magit-town-kill)
+    ("m p" "prune-branches" magit-town-prune-branches)]
+   ["Actions"
     ("w !" "Run Command" magit-town-run-topdir)]])
 
 (defun magit-town-run (&rest args)
@@ -47,9 +54,39 @@
 
 ;;;###autoload
 (defun magit-town-sync ()
-  "Sync your local branch with remote."
+  "Updates the current branch with all ongoing changes."
   (interactive)
   (magit-town-run "sync"))
+
+;;;###autoload
+(defun magit-town-hack ()
+  "Cuts a new up-to-date feature branch off the main branch."
+  (interactive "sFeature Name")
+  (magit-town-run "hack" feature-name))
+
+;;;###autoload
+(defun magit-town-new-pull-request ()
+  "Create a new pull request."
+  (interactive)
+  (magit-town-run "new-pull-request"))
+
+;;;###autoload
+(defun magit-town-ship ()
+  "Delivers a completed feature branch and removes it."
+  (interactive)
+  (magit-town-run "ship"))
+
+;;;###autoload
+(defun magit-town-kill ()
+  "Removes a feature branch"
+  (interactive)
+  (magit-town-run "kill"))
+
+;;;###autoload
+(defun magit-town-prune-branches ()
+  "delete all merged branches."
+  (interactive)
+  (magit-town-run "prune-branches"))
 
 ;;;###autoload
 (defun magit-town-run-topdir (command)
