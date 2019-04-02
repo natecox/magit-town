@@ -41,10 +41,14 @@
     ("d h" "hack" magit-town-hack)
     ("d s" "sync" magit-town-sync)
     ("d p" "new-pull-request" magit-town-new-pull-request)
-    ("d f" "ship" magit-town-ship)]
+    ("d S" "ship" magit-town-ship)]
    ["Repository Maintenance"
     ("m k" "kill" magit-town-kill)
-    ("m p" "prune-branches" magit-town-prune-branches)]
+    ("m P" "prune-branches" magit-town-prune-branches)
+    ("m r" "rename-branch" magit-town-rename-branch)
+    ("m a" "append" magit-town-append)
+    ("m p" "prepend" magit-town-prepend)
+    ("m r" "repo" magit-town-repo)]
    ["Actions"
     ("w !" "Run Command" magit-town-run-topdir)]])
 
@@ -78,7 +82,7 @@
 
 ;;;###autoload
 (defun magit-town-kill ()
-  "Removes a feature branch"
+  "Removes a feature branch."
   (interactive)
   (magit-town-run "kill"))
 
@@ -87,6 +91,30 @@
   "delete all merged branches."
   (interactive)
   (magit-town-run "prune-branches"))
+
+;;;###autoload
+(defun magit-town-rename-branch (new-branch-name)
+  "rename a branch."
+  (interactive "sBranch Name: ")
+  (magit-town-run "rename-branch" new-branch-name))
+
+;;;###autoload
+(defun magit-town-append (feature-name)
+  "insert a new branch as a child of the current branch."
+  (interactive "sFeature Name: ")
+  (magit-town-run "append" feature-name))
+
+;;;###autoload
+(defun magit-town-prepend (feature-name)
+  "insert a new branch between the current branch and its parent."
+  (interactive "sFeature Name: ")
+  (magit-town-run "prepend" feature-name))
+
+;;;###autoload
+(defun magit-town-repo ()
+  "view the repository homepage."
+  (interactive)
+  (magit-town-run "repo"))
 
 ;;;###autoload
 (defun magit-town-run-topdir (command)
